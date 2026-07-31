@@ -3,6 +3,8 @@
 #include "config.h"
 #include "settings.h"
 #include "lang.h"
+#include "io.h"  
+
 
 static int streq(const char* a, const char* b) {
     while (*a && *b) { if (*a != *b) return 0; a++; b++; }
@@ -19,6 +21,12 @@ static void cmd_lang(const char* arg) {
     else { print("?\n"); return; }
     print(msg(MSG_LANG_SET)); putchar('\n');
 }
+
+static void Close_system() {
+outw(0x604, 0x2000);
+outw(0xB004, 0x2000);
+}
+
 
 static void cmd_theme(const char* arg) {
     if (streq(arg, "dark")) { settings.fg = DARK_FG;  settings.bg = DARK_BG; }
@@ -37,6 +45,7 @@ static void run_command(const char* cmd) {
     else if (streq(cmd, "about")) { print(msg(MSG_ABOUT)); putchar('\n'); }
     else if ((arg = starts_with(cmd, "lang ")))  cmd_lang(arg);
     else if ((arg = starts_with(cmd, "theme "))) cmd_theme(arg);
+    else if (streq(cmd, "close")) Close_system();
     else { print(msg(MSG_UNKNOWN_CMD)); print(cmd); putchar('\n'); }
 }
 

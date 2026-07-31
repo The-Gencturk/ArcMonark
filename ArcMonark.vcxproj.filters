@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="gui.cpp" />
+    <ClCompile Include="kernel.c">
+      <Filter>kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="settings.c">
+      <Filter>kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="lang.c">
+      <Filter>kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="vga.c">
+      <Filter>drivers</Filter>
+    </ClCompile>
+    <ClCompile Include="keyboard.c">
+      <Filter>drivers</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="linker.ld" />
+    <None Include="Makefile" />
+    <None Include="boot.asm">
+      <Filter>boot</Filter>
+    </None>
+    <None Include="kernel_entry.asm">
+      <Filter>boot</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="boot">
+      <UniqueIdentifier>{9d34582c-23f1-4758-8a40-8950d33d29f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="kernel">
+      <UniqueIdentifier>{d30f7dd2-9877-4a64-b095-d90965667a3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="drivers">
+      <UniqueIdentifier>{097233ca-881f-49b1-adf0-3f4a747fb194}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{b06943df-4823-4f98-aa89-280fba9ca2b7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="settings.h">
+      <Filter>kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="lang.h">
+      <Filter>kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="vga.h">
+      <Filter>drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="keyboard.h">
+      <Filter>drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="io.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="config.h">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

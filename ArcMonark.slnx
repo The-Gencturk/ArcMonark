@@ -5,7 +5,7 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="ArcMonark.vcxproj">
+  <Project Path="ArcMonark.vcxproj" Id="269d8f57-bfd8-413a-93c9-def8427f6306">
     <Platform Solution="*|x86" Project="x86" />
     <Deploy />
   </Project>

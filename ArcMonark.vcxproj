@@ -83,12 +83,25 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="boot.asm" />
+    <None Include="kernel_entry.asm" />
     <None Include="linker.ld" />
     <None Include="Makefile" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gui.cpp" />
     <ClCompile Include="kernel.c" />
+    <ClCompile Include="keyboard.c" />
+    <ClCompile Include="lang.c" />
+    <ClCompile Include="settings.c" />
+    <ClCompile Include="vga.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="config.h" />
+    <ClInclude Include="io.h" />
+    <ClInclude Include="keyboard.h" />
+    <ClInclude Include="lang.h" />
+    <ClInclude Include="settings.h" />
+    <ClInclude Include="vga.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <CustomBuildStep>

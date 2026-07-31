@@ -1,6 +1,6 @@
 #include "keyboard.h"
 #include "io.h"
-#include "vga.h"
+#include "fb.h"
 
 static const char scancode_ascii[128] = {
     0,   27,  '1', '2', '3', '4', '5', '6', '7', '8',
@@ -13,9 +13,9 @@ static const char scancode_ascii[128] = {
 
 char keyboard_getchar(void) {
     while (1) {
-        if (inb(0x64) & 1) {              // output buffer dolu mu?
+        if (inb(0x64) & 1) {              
             unsigned char sc = inb(0x60);
-            if (sc & 0x80) continue;      // tus birakma → gormezden gel
+            if (sc & 0x80) continue;      
             char c = scancode_ascii[sc];
             if (c) return c;
         }

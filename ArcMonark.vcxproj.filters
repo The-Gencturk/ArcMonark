@@ -11,27 +11,22 @@
     <ClCompile Include="lang.c">
       <Filter>kernel</Filter>
     </ClCompile>
-    <ClCompile Include="vga.c">
-      <Filter>drivers</Filter>
-    </ClCompile>
     <ClCompile Include="keyboard.c">
       <Filter>drivers</Filter>
     </ClCompile>
+    <ClCompile Include="fb.c">
+      <Filter>drivers</Filter>
+    </ClCompile>
+    <ClCompile Include="idt.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="linker.ld" />
-    <None Include="Makefile" />
-    <None Include="boot.asm">
-      <Filter>boot</Filter>
-    </None>
-    <None Include="kernel_entry.asm">
-      <Filter>boot</Filter>
-    </None>
+    <None Include="limine.conf" />
+    <None Include="GNUmakefile" />
+    <None Include="image.sh" />
+    <None Include="run.bat" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="boot">
-      <UniqueIdentifier>{9d34582c-23f1-4758-8a40-8950d33d29f2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="kernel">
       <UniqueIdentifier>{d30f7dd2-9877-4a64-b095-d90965667a3d}</UniqueIdentifier>
     </Filter>
@@ -49,9 +44,6 @@
     <ClInclude Include="lang.h">
       <Filter>kernel</Filter>
     </ClInclude>
-    <ClInclude Include="vga.h">
-      <Filter>drivers</Filter>
-    </ClInclude>
     <ClInclude Include="keyboard.h">
       <Filter>drivers</Filter>
     </ClInclude>
@@ -61,5 +53,15 @@
     <ClInclude Include="config.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="fb.h">
+      <Filter>drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="font8x16.h">
+      <Filter>drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="limine.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="idt.h" />
   </ItemGroup>
 </Project>

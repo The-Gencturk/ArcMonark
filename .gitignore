@@ -361,3 +361,9 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# ArcMonark 64-bit build ciktilari (make / image.sh tarafindan uretilir)
+*.o
+*.elf
+*.iso
+/iso_root/

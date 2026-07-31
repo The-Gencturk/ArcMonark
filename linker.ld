@@ -1,46 +1,30 @@
-OUTPUT_FORMAT("binary")     /* çıktı: ham binary, ELF header yok */
-ENTRY(kernel_entry)         /* giriş noktası bilgisi (binary'de sembolik) */
+OUTPUT_FORMAT(elf64-x86-64)
+ENTRY(_start)
 
-SECTIONS
-{
-    /* boot.asm bizi 0x1000'e atlıyor → her şey buradan başlar */
-    . = 0x1000;
+PHDRS {
+    text    PT_LOAD FLAGS((1 << 0) | (1 << 2));
+    rodata  PT_LOAD FLAGS((1 << 2));
+    data    PT_LOAD FLAGS((1 << 1) | (1 << 2));
+    dynamic PT_DYNAMIC FLAGS((1 << 1) | (1 << 2));
+}
 
-    /* --- KOD --- */
-    .text :
-    {
-        *(.entry)           /* kernel_entry EN BAŞTA olsun */
-        *(.text)            /* geri kalan tüm kod */
-        *(.text.*)
-    }
+SECTIONS {
+    . = 0xffffffff80000000;
 
-    /* --- SALT-OKUNUR VERİ --- (string sabitleri vs.) */
-    .rodata :
-    {
-        *(.rodata)
-        *(.rodata.*)
-    }
+    .text : { *(.text .text.*) } :text
 
-    /* --- YAZILABİLİR VERİ --- (init edilmiş global'ler) */
-    .data :
-    {
-        *(.data)
-        *(.data.*)
-    }
+    . += CONSTANT(MAXPAGESIZE);
+    .rodata : { *(.rodata .rodata.*) } :rodata
+    .limine_requests : {
+        KEEP(*(.limine_requests_start))
+        KEEP(*(.limine_requests))
+        KEEP(*(.limine_requests_end))
+    } :rodata
 
-    /* --- SIFIR VERİ --- (init edilmemiş global'ler: cursor_row vs.) */
-    .bss :
-    {
-        *(.bss)
-        *(.bss.*)
-        *(COMMON)
-    }
+    . += CONSTANT(MAXPAGESIZE);
+    .data : { *(.data .data.*) } :data
+    .dynamic : { *(.dynamic) } :data :dynamic
+    .bss : { *(.bss .bss.*) *(COMMON) } :data
 
-    /* --- ÇÖP TENEKESİ --- linker'ın ürettiği gereksiz section'lar */
-    /DISCARD/ :
-    {
-        *(.comment)
-        *(.note*)
-        *(.eh_frame)
-    }
+    /DISCARD/ : { *(.note .note.*) *(.eh_frame*) }
 }

@@ -1,10 +1,10 @@
-#include "vga.h"
 #include "keyboard.h"
 #include "config.h"
 #include "settings.h"
 #include "lang.h"
-#include "io.h"  
-
+#include "idt.h"
+#include "io.h"
+#include "fb.h"
 
 static int streq(const char* a, const char* b) {
     while (*a && *b) { if (*a != *b) return 0; a++; b++; }
@@ -49,9 +49,13 @@ static void run_command(const char* cmd) {
     else { print(msg(MSG_UNKNOWN_CMD)); print(cmd); putchar('\n'); }
 }
 
+static void hcf(void) {
+    for (;;) __asm__ volatile ("hlt");
+}
+
 void kmain(void) {
-    settings_init();                       
-    set_color(settings.fg, settings.bg);   
+    settings_init();
+    set_color(settings.fg, settings.bg);
     clear_screen();
 
     print(msg(MSG_WELCOME));   putchar('\n');
@@ -59,8 +63,17 @@ void kmain(void) {
 
     char line[LINE_MAX];
     while (1) {
+        color(COLOR_RED);
         print(PROMPT);
+        color(COLOR_WHITE);
         read_line(line, LINE_MAX);
         run_command(line);
     }
+}
+
+void _start(void) {
+    if (!fb_init())   
+        hcf();
+    kmain();
+    hcf();          
 }

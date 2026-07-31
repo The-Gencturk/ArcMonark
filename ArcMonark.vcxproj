@@ -1,30 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|ARM">
-      <Configuration>Debug</Configuration>
-      <Platform>ARM</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|ARM">
-      <Configuration>Release</Configuration>
-      <Platform>ARM</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|ARM64">
-      <Configuration>Debug</Configuration>
-      <Platform>ARM64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|ARM64">
-      <Configuration>Release</Configuration>
-      <Platform>ARM64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|x86">
-      <Configuration>Debug</Configuration>
-      <Platform>x86</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|x86">
-      <Configuration>Release</Configuration>
-      <Platform>x86</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
@@ -35,89 +11,78 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
     <ProjectGuid>{269d8f57-bfd8-413a-93c9-def8427f6306}</ProjectGuid>
-    <Keyword>Linux</Keyword>
     <RootNamespace>ArcMonark</RootNamespace>
-    <MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
-    <ApplicationType>Linux</ApplicationType>
-    <ApplicationTypeRevision>1.0</ApplicationTypeRevision>
-    <TargetLinuxPlatform>Generic</TargetLinuxPlatform>
-    <LinuxProjectType>{2238F9CD-F817-4ECC-BD14-2524D2669B35}</LinuxProjectType>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
-    <UseDebugLibraries>true</UseDebugLibraries>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
-    <UseDebugLibraries>false</UseDebugLibraries>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'" Label="Configuration">
-    <UseDebugLibraries>true</UseDebugLibraries>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'" Label="Configuration">
-    <UseDebugLibraries>false</UseDebugLibraries>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <UseDebugLibraries>true</UseDebugLibraries>
     <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="Configuration">
-    <UseDebugLibraries>false</UseDebugLibraries>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="Configuration">
-    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
-  <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
+  <!-- Derleme/calistirma komutlari: her sey WSL uzerinden GNUmakefile ile.
+       Yesil buton (F5) LocalDebuggerCommand'i, yani "wsl make run"u calistirir
+       ve QEMU penceresini acar. Calisma dizini proje koku ($(ProjectDir)). -->
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <BuildCommandLine>wsl make</BuildCommandLine>
-    <ReBuildCommandLine>wsl make clean &amp;&amp; wsl make</ReBuildCommandLine>
-    <CleanCommandLine>wsl make clean</CleanCommandLine>
-    <LocalBuildOutputs>ArcMonark.bin</LocalBuildOutputs>
+    <NMakeBuildCommandLine>wsl make</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>wsl make clean &amp;&amp; wsl make</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>wsl make clean</NMakeCleanCommandLine>
+    <NMakeOutput>arcmonark.iso</NMakeOutput>
+    <LocalDebuggerCommand>C:\Windows\System32\wsl.exe</LocalDebuggerCommand>
+    <LocalDebuggerCommandArguments>make run</LocalDebuggerCommandArguments>
+    <LocalDebuggerWorkingDirectory>$(ProjectDir)</LocalDebuggerWorkingDirectory>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <NMakeBuildCommandLine>wsl make</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>wsl make clean &amp;&amp; wsl make</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>wsl make clean</NMakeCleanCommandLine>
+    <NMakeOutput>arcmonark.iso</NMakeOutput>
+    <LocalDebuggerCommand>C:\Windows\System32\wsl.exe</LocalDebuggerCommand>
+    <LocalDebuggerCommandArguments>make run</LocalDebuggerCommandArguments>
+    <LocalDebuggerWorkingDirectory>$(ProjectDir)</LocalDebuggerWorkingDirectory>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="boot.asm" />
-    <None Include="kernel_entry.asm" />
+    <None Include="GNUmakefile" />
+    <None Include="image.sh" />
+    <None Include="limine.conf" />
     <None Include="linker.ld" />
-    <None Include="Makefile" />
+    <None Include="run.bat" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="fb.c" />
     <ClCompile Include="gui.cpp" />
+    <ClCompile Include="idt.c" />
     <ClCompile Include="kernel.c" />
     <ClCompile Include="keyboard.c" />
     <ClCompile Include="lang.c" />
     <ClCompile Include="settings.c" />
-    <ClCompile Include="vga.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h" />
+    <ClInclude Include="fb.h" />
+    <ClInclude Include="font8x16.h" />
+    <ClInclude Include="idt.h" />
     <ClInclude Include="io.h" />
     <ClInclude Include="keyboard.h" />
     <ClInclude Include="lang.h" />
+    <ClInclude Include="limine.h" />
     <ClInclude Include="settings.h" />
-    <ClInclude Include="vga.h" />
   </ItemGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <CustomBuildStep>
-      <Command>wsl make run</Command>
-    </CustomBuildStep>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <CustomBuildStep>
-      <Message>ArcMonark WSL zerinde derleniyor ve QEMU başlatılıyor...</Message>
-    </CustomBuildStep>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <CustomBuildStep>
-      <Outputs>ArcMonark.bin</Outputs>
-    </CustomBuildStep>
-  </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>

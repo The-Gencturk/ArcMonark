@@ -9,7 +9,7 @@
 #include "timer.h"
 
 
-//cd / mnt / c / Users / LENOVO / source / repos / ArcMonark
+//cd /mnt/c/Users/LENOVO/source/repos/ArcMonark
 
 static int streq(const char* a, const char* b) {
     while (*a && *b) { if (*a != *b) return 0; a++; b++; }
@@ -31,7 +31,6 @@ static void Close_system() {
 outw(0x604, 0x2000);
 outw(0xB004, 0x2000);
 }
-
 
 static void cmd_theme(const char* arg) {
     if (streq(arg, "dark")) { settings.fg = DARK_FG;  settings.bg = DARK_BG; }
@@ -62,15 +61,13 @@ void kmain(void) {
     settings_init();
     set_color(settings.fg, settings.bg);
     clear_screen();
-
     idt_init();
     pic_remap();
     pit_init(100);
     idt_set_gate(0x20, (void*)irq0_timer, IDT_INT_GATE);
     irq_clear_mask(0);
+    keyboard_init();
     asm volatile("sti");
-    print("RENDER TESTI 12345\n");
-    asm volatile("ud2");
 
     print(msg(MSG_WELCOME));   putchar('\n');
     print(msg(MSG_HELP_HINT)); print("\n\n");

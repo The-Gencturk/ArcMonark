@@ -9,7 +9,7 @@ static void print_hex(uint64_t val) {
     for (int i = 0; i < 16; i++)
         buf[2 + i] = h[(val >> ((15 - i) * 4)) & 0xF];
     buf[18] = '\0';
-    print(buf);          // <-- print, putchar DEGIL
+    print(buf);          
 }
 __attribute__((noreturn))
 void panic(const char* msg, struct interrupt_frame* frame, uint64_t error_code) {

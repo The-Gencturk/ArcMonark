@@ -18,6 +18,14 @@
       <Filter>drivers</Filter>
     </ClCompile>
     <ClCompile Include="idt.c" />
+    <ClCompile Include="pic.c" />
+    <ClCompile Include="timer.c" />
+    <ClCompile Include="panic.c">
+      <Filter>exception</Filter>
+    </ClCompile>
+    <ClCompile Include="exceptions.c">
+      <Filter>exception</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="linker.ld" />
@@ -35,6 +43,9 @@
     </Filter>
     <Filter Include="include">
       <UniqueIdentifier>{b06943df-4823-4f98-aa89-280fba9ca2b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="exception">
+      <UniqueIdentifier>{eceb532b-40a9-4371-ae32-f362541a0c62}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -59,9 +70,17 @@
     <ClInclude Include="font8x16.h">
       <Filter>drivers</Filter>
     </ClInclude>
+    <ClInclude Include="idt.h" />
     <ClInclude Include="limine.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="idt.h" />
+    <ClInclude Include="pic.h" />
+    <ClInclude Include="timer.h" />
+    <ClInclude Include="panic.h">
+      <Filter>exception</Filter>
+    </ClInclude>
+    <ClInclude Include="exceptions.h">
+      <Filter>exception</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

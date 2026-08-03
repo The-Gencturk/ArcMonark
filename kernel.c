@@ -5,6 +5,11 @@
 #include "idt.h"
 #include "io.h"
 #include "fb.h"
+#include "pic.h"
+#include "timer.h"
+
+
+//cd / mnt / c / Users / LENOVO / source / repos / ArcMonark
 
 static int streq(const char* a, const char* b) {
     while (*a && *b) { if (*a != *b) return 0; a++; b++; }
@@ -58,6 +63,15 @@ void kmain(void) {
     set_color(settings.fg, settings.bg);
     clear_screen();
 
+    idt_init();
+    pic_remap();
+    pit_init(100);
+    idt_set_gate(0x20, (void*)irq0_timer, IDT_INT_GATE);
+    irq_clear_mask(0);
+    asm volatile("sti");
+    print("RENDER TESTI 12345\n");
+    asm volatile("ud2");
+
     print(msg(MSG_WELCOME));   putchar('\n');
     print(msg(MSG_HELP_HINT)); print("\n\n");
 
@@ -77,3 +91,5 @@ void _start(void) {
     kmain();
     hcf();          
 }
+
+

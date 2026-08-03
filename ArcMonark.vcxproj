@@ -64,16 +64,21 @@
     <None Include="run.bat" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="exceptions.c" />
     <ClCompile Include="fb.c" />
     <ClCompile Include="gui.cpp" />
     <ClCompile Include="idt.c" />
     <ClCompile Include="kernel.c" />
     <ClCompile Include="keyboard.c" />
     <ClCompile Include="lang.c" />
+    <ClCompile Include="panic.c" />
+    <ClCompile Include="pic.c" />
     <ClCompile Include="settings.c" />
+    <ClCompile Include="timer.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h" />
+    <ClInclude Include="exceptions.h" />
     <ClInclude Include="fb.h" />
     <ClInclude Include="font8x16.h" />
     <ClInclude Include="idt.h" />
@@ -81,7 +86,10 @@
     <ClInclude Include="keyboard.h" />
     <ClInclude Include="lang.h" />
     <ClInclude Include="limine.h" />
+    <ClInclude Include="panic.h" />
+    <ClInclude Include="pic.h" />
     <ClInclude Include="settings.h" />
+    <ClInclude Include="timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

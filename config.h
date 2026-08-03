@@ -5,9 +5,8 @@
 
 
 #define DEFAULT_LANG   LANG_TR
-/* Framebuffer artik 0xAARRGGBB (ARGB) renk kullaniyor, VGA index degil. */
-#define THEME_FG       0xFFFFFFFF   /* beyaz */
-#define THEME_BG       0xFF000000   /* siyah */
+#define THEME_FG       0xFFFFFFFF   
+#define THEME_BG       0xFF000000   
 
 
 #define DARK_FG  0xFFE0E0E0

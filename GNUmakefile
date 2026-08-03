@@ -9,11 +9,11 @@ CFLAGS := -g -O2 -pipe -Wall -Wextra -std=gnu11 \
           -ffreestanding -fno-stack-protector -fno-stack-check \
           -fno-lto -fno-PIC -m64 -march=x86-64 \
           -mno-80387 -mno-mmx -mno-sse -mno-sse2 \
-          -mno-red-zone -mcmodel=kernel -I.
+          -mno-red-zone -mgeneral-regs-only -mcmodel=kernel -I.
 
 LDFLAGS := -m elf_x86_64 -nostdlib -static -z max-page-size=0x1000 -T linker.ld
 
-CFILES := kernel.c fb.c keyboard.c lang.c settings.c
+CFILES := kernel.c fb.c keyboard.c lang.c settings.c idt.c pic.c timer.c exceptions.c panic.c
 OBJ := $(CFILES:.c=.o)
 
 all: $(KERNEL)

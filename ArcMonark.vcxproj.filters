@@ -27,6 +27,9 @@
       <Filter>exception</Filter>
     </ClCompile>
     <ClCompile Include="pmm.c" />
+    <ClCompile Include="mouse.c">
+      <Filter>drivers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="linker.ld" />
@@ -84,5 +87,8 @@
       <Filter>exception</Filter>
     </ClInclude>
     <ClInclude Include="pmm.h" />
+    <ClInclude Include="mouse.h">
+      <Filter>drivers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

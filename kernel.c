@@ -73,12 +73,8 @@ void kmain(void) {
     print(msg(MSG_WELCOME));   putchar('\n');
     print(msg(MSG_HELP_HINT)); print("\n\n");
 
-    char b[21];
 
-    print("PMM: total="); print(u64_to_dec(pmm_total_frames(), b));
-    print(" used=");       print(u64_to_dec(pmm_used_frames(), b));
-    print(" free=");       print(u64_to_dec(pmm_free_frames(), b));
-    print("\n");
+    print("f4="); print(u64_to_dec((uint64_t)f4, tb)); print("\n");
 
     char line[LINE_MAX];
     while (1) {

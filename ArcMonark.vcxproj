@@ -71,6 +71,7 @@
     <ClCompile Include="kernel.c" />
     <ClCompile Include="keyboard.c" />
     <ClCompile Include="lang.c" />
+    <ClCompile Include="mouse.c" />
     <ClCompile Include="panic.c" />
     <ClCompile Include="pic.c" />
     <ClCompile Include="pmm.c" />
@@ -87,6 +88,7 @@
     <ClInclude Include="keyboard.h" />
     <ClInclude Include="lang.h" />
     <ClInclude Include="limine.h" />
+    <ClInclude Include="mouse.h" />
     <ClInclude Include="panic.h" />
     <ClInclude Include="pic.h" />
     <ClInclude Include="pmm.h" />

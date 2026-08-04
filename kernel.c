@@ -8,6 +8,9 @@
 #include "pic.h"
 #include "timer.h"
 #include "pmm.h"
+#include "vmm.h"
+#include "heap.h"
+#include "string.h"
 
 //cd /mnt/c/Users/LENOVO/source/repos/ArcMonark
 
@@ -41,12 +44,24 @@ static void cmd_theme(const char* arg) {
     print(msg(MSG_THEME_SET)); putchar('\n');
 }
 
+static void cmd_mem(void) {
+    char buf[21];
+    uint64_t free_mib = pmm_free_frames() * PAGE_SIZE / (1024 * 1024);
+
+    print("total frames : "); print(u64_to_dec(pmm_total_frames(), buf)); putchar('\n');
+    print("used  frames : "); print(u64_to_dec(pmm_used_frames(),  buf)); putchar('\n');
+    print("free  frames : "); print(u64_to_dec(pmm_free_frames(),  buf)); putchar('\n');
+    print("free  ram MiB: "); print(u64_to_dec(free_mib,           buf)); putchar('\n');
+    print("heap  used  B: "); print(u64_to_dec(heap_used_bytes(),  buf)); putchar('\n');
+}
+
 static void run_command(const char* cmd) {
     const char* arg;
     if (cmd[0] == '\0')                          return;
     else if (streq(cmd, "help")) { print(msg(MSG_HELP_LIST)); putchar('\n'); }
     else if (streq(cmd, "clear"))                clear_screen();
     else if (streq(cmd, "about")) { print(msg(MSG_ABOUT)); putchar('\n'); }
+    else if (streq(cmd, "mem"))                  cmd_mem();
     else if ((arg = starts_with(cmd, "lang ")))  cmd_lang(arg);
     else if ((arg = starts_with(cmd, "theme "))) cmd_theme(arg);
     else if (streq(cmd, "close")) Close_system();
@@ -68,13 +83,15 @@ void kmain(void) {
     irq_clear_mask(0);
     keyboard_init();
     pmm_init();
+    vmm_init();
+    heap_init();
     asm volatile("sti");
 
     print(msg(MSG_WELCOME));   putchar('\n');
     print(msg(MSG_HELP_HINT)); print("\n\n");
 
 
-    print("f4="); print(u64_to_dec((uint64_t)f4, tb)); print("\n");
+
 
     char line[LINE_MAX];
     while (1) {

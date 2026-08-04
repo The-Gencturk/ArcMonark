@@ -67,6 +67,7 @@
     <ClCompile Include="exceptions.c" />
     <ClCompile Include="fb.c" />
     <ClCompile Include="gui.cpp" />
+    <ClCompile Include="heap.c" />
     <ClCompile Include="idt.c" />
     <ClCompile Include="kernel.c" />
     <ClCompile Include="keyboard.c" />
@@ -76,13 +77,16 @@
     <ClCompile Include="pic.c" />
     <ClCompile Include="pmm.c" />
     <ClCompile Include="settings.c" />
+    <ClCompile Include="string.c" />
     <ClCompile Include="timer.c" />
+    <ClCompile Include="vmm.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h" />
     <ClInclude Include="exceptions.h" />
     <ClInclude Include="fb.h" />
     <ClInclude Include="font8x16.h" />
+    <ClInclude Include="heap.h" />
     <ClInclude Include="idt.h" />
     <ClInclude Include="io.h" />
     <ClInclude Include="keyboard.h" />
@@ -93,7 +97,9 @@
     <ClInclude Include="pic.h" />
     <ClInclude Include="pmm.h" />
     <ClInclude Include="settings.h" />
+    <ClInclude Include="string.h" />
     <ClInclude Include="timer.h" />
+    <ClInclude Include="vmm.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

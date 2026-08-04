@@ -17,8 +17,4 @@ uint64_t pmm_total_frames(void);
 uint64_t pmm_used_frames(void);
 uint64_t pmm_free_frames(void);
 
-void* memset(void* dest, int value, uint64_t count);
-
-char* u64_to_dec(uint64_t v, char* buf);
-
-#endif 
+#endif

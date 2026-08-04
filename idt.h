@@ -2,7 +2,7 @@
 #include <stdint.h>
 
 #define IDT_ENTRIES   256
-#define KERNEL_CS  0x08
+#define KERNEL_CS  0x28
 
 struct idt_entry {
     uint16_t offset_low;    

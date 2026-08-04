@@ -85,27 +85,9 @@ void* pmm_alloc_frame(void) {
 
 void pmm_free_frame(void* frame) {
     uint64_t idx = (uint64_t)frame / PAGE_SIZE;
-    if (!bmp_test(idx)) return;   
+    if (!bmp_test(idx)) return;
     bmp_clear(idx);
     used_frames--;
-}
-
-char* u64_to_dec(uint64_t v, char* buf) {
-    char tmp[21];
-    int i = 0;
-    if (v == 0) { buf[0] = '0'; buf[1] = '\0'; return buf; }
-    while (v > 0) { tmp[i++] = '0' + (v % 10); v /= 10; }
-    int j = 0;
-    while (i > 0) buf[j++] = tmp[--i];
-    buf[j] = '\0';
-    return buf;
-}
-
-
-void* memset(void* dest, int value, uint64_t count) {
-    uint8_t* p = (uint8_t*)dest;
-    for (uint64_t i = 0; i < count; i++) p[i] = (uint8_t)value;
-    return dest;
 }
 
 uint64_t pmm_total_frames(void) { return total_frames; }

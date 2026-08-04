@@ -30,6 +30,9 @@
     <ClCompile Include="mouse.c">
       <Filter>drivers</Filter>
     </ClCompile>
+    <ClCompile Include="vmm.c" />
+    <ClCompile Include="heap.c" />
+    <ClCompile Include="string.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="linker.ld" />
@@ -90,5 +93,8 @@
     <ClInclude Include="mouse.h">
       <Filter>drivers</Filter>
     </ClInclude>
+    <ClInclude Include="vmm.h" />
+    <ClInclude Include="heap.h" />
+    <ClInclude Include="string.h" />
   </ItemGroup>
 </Project>

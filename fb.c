@@ -95,9 +95,13 @@ void putchar(char c) {
     draw_cursor();
 }
 
+
+
+
 void print(const char* s) { while (*s) putchar(*s++); }
 
 void color(uint32_t new_fg) { fg = new_fg; }
 
 void set_color(uint32_t new_fg, uint32_t new_bg) { fg = new_fg; bg = new_bg; }
 
+char* u64_to_dec(uint64_t v, char* buf);

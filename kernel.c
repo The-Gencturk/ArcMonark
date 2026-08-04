@@ -7,7 +7,7 @@
 #include "fb.h"
 #include "pic.h"
 #include "timer.h"
-
+#include "pmm.h"
 
 //cd /mnt/c/Users/LENOVO/source/repos/ArcMonark
 
@@ -67,10 +67,18 @@ void kmain(void) {
     idt_set_gate(0x20, (void*)irq0_timer, IDT_INT_GATE);
     irq_clear_mask(0);
     keyboard_init();
+    pmm_init();
     asm volatile("sti");
 
     print(msg(MSG_WELCOME));   putchar('\n');
     print(msg(MSG_HELP_HINT)); print("\n\n");
+
+    char b[21];
+
+    print("PMM: total="); print(u64_to_dec(pmm_total_frames(), b));
+    print(" used=");       print(u64_to_dec(pmm_used_frames(), b));
+    print(" free=");       print(u64_to_dec(pmm_free_frames(), b));
+    print("\n");
 
     char line[LINE_MAX];
     while (1) {

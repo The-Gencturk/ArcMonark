@@ -26,6 +26,7 @@
     <ClCompile Include="exceptions.c">
       <Filter>exception</Filter>
     </ClCompile>
+    <ClCompile Include="pmm.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="linker.ld" />
@@ -82,5 +83,6 @@
     <ClInclude Include="exceptions.h">
       <Filter>exception</Filter>
     </ClInclude>
+    <ClInclude Include="pmm.h" />
   </ItemGroup>
 </Project>

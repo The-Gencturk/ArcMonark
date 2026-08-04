@@ -13,7 +13,7 @@ CFLAGS := -g -O2 -pipe -Wall -Wextra -std=gnu11 \
 
 LDFLAGS := -m elf_x86_64 -nostdlib -static -z max-page-size=0x1000 -T linker.ld
 
-CFILES := kernel.c fb.c keyboard.c lang.c settings.c idt.c pic.c timer.c exceptions.c panic.c
+CFILES := kernel.c fb.c keyboard.c lang.c settings.c idt.c pic.c timer.c exceptions.c panic.c pmm.c
 OBJ := $(CFILES:.c=.o)
 
 all: $(KERNEL)

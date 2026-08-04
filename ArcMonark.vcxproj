@@ -73,6 +73,7 @@
     <ClCompile Include="lang.c" />
     <ClCompile Include="panic.c" />
     <ClCompile Include="pic.c" />
+    <ClCompile Include="pmm.c" />
     <ClCompile Include="settings.c" />
     <ClCompile Include="timer.c" />
   </ItemGroup>
@@ -88,6 +89,7 @@
     <ClInclude Include="limine.h" />
     <ClInclude Include="panic.h" />
     <ClInclude Include="pic.h" />
+    <ClInclude Include="pmm.h" />
     <ClInclude Include="settings.h" />
     <ClInclude Include="timer.h" />
   </ItemGroup>

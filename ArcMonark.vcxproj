@@ -33,12 +33,14 @@
   <PropertyGroup Label="UserMacros" />
   <!-- Derleme/calistirma komutlari: her sey WSL uzerinden GNUmakefile ile.
        Yesil buton (F5) LocalDebuggerCommand'i, yani "wsl make run"u calistirir
-       ve QEMU penceresini acar. Calisma dizini proje koku ($(ProjectDir)). -->
+       ve QEMU penceresini acar. Calisma dizini proje koku ($(ProjectDir)).
+       IntelliSense icin baslik yolu: include/. -->
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <NMakeBuildCommandLine>wsl make</NMakeBuildCommandLine>
     <NMakeReBuildCommandLine>wsl make clean &amp;&amp; wsl make</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>wsl make clean</NMakeCleanCommandLine>
     <NMakeOutput>arcmonark.iso</NMakeOutput>
+    <NMakeIncludeSearchPath>include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
     <LocalDebuggerCommand>C:\Windows\System32\wsl.exe</LocalDebuggerCommand>
     <LocalDebuggerCommandArguments>make run</LocalDebuggerCommandArguments>
     <LocalDebuggerWorkingDirectory>$(ProjectDir)</LocalDebuggerWorkingDirectory>
@@ -49,6 +51,7 @@
     <NMakeReBuildCommandLine>wsl make clean &amp;&amp; wsl make</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>wsl make clean</NMakeCleanCommandLine>
     <NMakeOutput>arcmonark.iso</NMakeOutput>
+    <NMakeIncludeSearchPath>include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
     <LocalDebuggerCommand>C:\Windows\System32\wsl.exe</LocalDebuggerCommand>
     <LocalDebuggerCommandArguments>make run</LocalDebuggerCommandArguments>
     <LocalDebuggerWorkingDirectory>$(ProjectDir)</LocalDebuggerWorkingDirectory>
@@ -62,44 +65,51 @@
     <None Include="limine.conf" />
     <None Include="linker.ld" />
     <None Include="run.bat" />
+    <None Include="src\cpu\switch.asm" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="exceptions.c" />
-    <ClCompile Include="fb.c" />
-    <ClCompile Include="gui.cpp" />
-    <ClCompile Include="heap.c" />
-    <ClCompile Include="idt.c" />
-    <ClCompile Include="kernel.c" />
-    <ClCompile Include="keyboard.c" />
-    <ClCompile Include="lang.c" />
-    <ClCompile Include="mouse.c" />
-    <ClCompile Include="panic.c" />
-    <ClCompile Include="pic.c" />
-    <ClCompile Include="pmm.c" />
-    <ClCompile Include="settings.c" />
-    <ClCompile Include="string.c" />
-    <ClCompile Include="timer.c" />
-    <ClCompile Include="vmm.c" />
+    <ClCompile Include="src\gui\gfx.c" />
+    <ClCompile Include="src\drivers\serial.c" />
+    <ClCompile Include="src\cpu\exceptions.c" />
+    <ClCompile Include="src\cpu\idt.c" />
+    <ClCompile Include="src\cpu\panic.c" />
+    <ClCompile Include="src\cpu\pic.c" />
+    <ClCompile Include="src\cpu\timer.c" />
+    <ClCompile Include="src\drivers\fb.c" />
+    <ClCompile Include="src\drivers\keyboard.c" />
+    <ClCompile Include="src\drivers\mouse.c" />
+    <ClCompile Include="src\gui\gui.cpp" />
+    <ClCompile Include="src\kernel\kernel.c" />
+    <ClCompile Include="src\kernel\lang.c" />
+    <ClCompile Include="src\kernel\settings.c" />
+    <ClCompile Include="src\lib\string.c" />
+    <ClCompile Include="src\mm\heap.c" />
+    <ClCompile Include="src\mm\pmm.c" />
+    <ClCompile Include="src\mm\vmm.c" />
+    <ClCompile Include="src\sched\sched.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="config.h" />
-    <ClInclude Include="exceptions.h" />
-    <ClInclude Include="fb.h" />
-    <ClInclude Include="font8x16.h" />
-    <ClInclude Include="heap.h" />
-    <ClInclude Include="idt.h" />
-    <ClInclude Include="io.h" />
-    <ClInclude Include="keyboard.h" />
-    <ClInclude Include="lang.h" />
-    <ClInclude Include="limine.h" />
-    <ClInclude Include="mouse.h" />
-    <ClInclude Include="panic.h" />
-    <ClInclude Include="pic.h" />
-    <ClInclude Include="pmm.h" />
-    <ClInclude Include="settings.h" />
-    <ClInclude Include="string.h" />
-    <ClInclude Include="timer.h" />
-    <ClInclude Include="vmm.h" />
+    <ClInclude Include="include\gfx.h" />
+    <ClInclude Include="include\config.h" />
+    <ClInclude Include="include\exceptions.h" />
+    <ClInclude Include="include\fb.h" />
+    <ClInclude Include="include\font8x16.h" />
+    <ClInclude Include="include\heap.h" />
+    <ClInclude Include="include\idt.h" />
+    <ClInclude Include="include\io.h" />
+    <ClInclude Include="include\keyboard.h" />
+    <ClInclude Include="include\lang.h" />
+    <ClInclude Include="include\limine.h" />
+    <ClInclude Include="include\mouse.h" />
+    <ClInclude Include="include\panic.h" />
+    <ClInclude Include="include\pic.h" />
+    <ClInclude Include="include\pmm.h" />
+    <ClInclude Include="include\sched.h" />
+    <ClInclude Include="include\settings.h" />
+    <ClInclude Include="include\string.h" />
+    <ClInclude Include="include\timer.h" />
+    <ClInclude Include="include\vmm.h" />
+    <ClInclude Include="include\serial.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

@@ -363,7 +363,11 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # ArcMonark 64-bit build ciktilari (make / image.sh tarafindan uretilir)
+/build/
 *.o
 *.elf
 *.iso
 /iso_root/
+
+# Vendored Limine bootloader (kendi git deposu; harici olarak klonlanir)
+/limine/

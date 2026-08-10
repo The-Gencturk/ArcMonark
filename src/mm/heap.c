@@ -140,7 +140,7 @@ void* krealloc(void* ptr, size_t size) {
 
     block_t* b = (block_t*)((uint8_t*)ptr - sizeof(block_t));
     size_t new_size = align_up(size, ALIGN);
-    if (b->size >= new_size) return ptr;   // zaten yeterli
+    if (b->size >= new_size) return ptr;   
 
     void* np = kmalloc(size);
     if (!np) return NULL;

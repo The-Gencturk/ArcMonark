@@ -20,10 +20,11 @@ __attribute__((used, section(".limine_requests_end")))
 static volatile uint64_t limine_requests_end[2] = LIMINE_REQUESTS_END_MARKER;
 
 
-static uint32_t* fb;         
-static uint64_t  pitch;      
+static uint32_t* fb;
+static uint64_t  pitch;
 static uint32_t  width, height;
-static uint32_t  cur_x, cur_y;   
+static uint16_t  bpp;
+static uint32_t  cur_x, cur_y;
 static uint32_t  fg = 0xFFFFFFFF, bg = 0x00000000;
 
 #define CH_W 8
@@ -37,9 +38,17 @@ int fb_init(void) {
     pitch = f->pitch;
     width = f->width;
     height = f->height;
+    bpp = f->bpp;
     cur_x = cur_y = 0;
     return 1;
 }
+
+// gfx katmani (src/gui/gfx.c) framebuffer bilgisini buradan alir.
+void*    fb_address(void) { return fb; }
+uint32_t fb_width(void)   { return width; }
+uint32_t fb_height(void)  { return height; }
+uint32_t fb_pitch(void)   { return (uint32_t)pitch; }   // BAYT cinsinden
+uint16_t fb_bpp(void)     { return bpp; }
 
 static inline void put_pixel(uint32_t x, uint32_t y, uint32_t color) {
     if (x >= width || y >= height) return;

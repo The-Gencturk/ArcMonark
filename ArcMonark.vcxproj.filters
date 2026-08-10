@@ -1,46 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemGroup>
-    <ClCompile Include="gui.cpp" />
-    <ClCompile Include="kernel.c">
-      <Filter>kernel</Filter>
-    </ClCompile>
-    <ClCompile Include="settings.c">
-      <Filter>kernel</Filter>
-    </ClCompile>
-    <ClCompile Include="lang.c">
-      <Filter>kernel</Filter>
-    </ClCompile>
-    <ClCompile Include="keyboard.c">
-      <Filter>drivers</Filter>
-    </ClCompile>
-    <ClCompile Include="fb.c">
-      <Filter>drivers</Filter>
-    </ClCompile>
-    <ClCompile Include="idt.c" />
-    <ClCompile Include="pic.c" />
-    <ClCompile Include="timer.c" />
-    <ClCompile Include="panic.c">
-      <Filter>exception</Filter>
-    </ClCompile>
-    <ClCompile Include="exceptions.c">
-      <Filter>exception</Filter>
-    </ClCompile>
-    <ClCompile Include="pmm.c" />
-    <ClCompile Include="mouse.c">
-      <Filter>drivers</Filter>
-    </ClCompile>
-    <ClCompile Include="vmm.c" />
-    <ClCompile Include="heap.c" />
-    <ClCompile Include="string.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="linker.ld" />
-    <None Include="limine.conf" />
-    <None Include="GNUmakefile" />
-    <None Include="image.sh" />
-    <None Include="run.bat" />
-  </ItemGroup>
   <ItemGroup>
     <Filter Include="kernel">
       <UniqueIdentifier>{d30f7dd2-9877-4a64-b095-d90965667a3d}</UniqueIdentifier>
@@ -48,53 +7,157 @@
     <Filter Include="drivers">
       <UniqueIdentifier>{097233ca-881f-49b1-adf0-3f4a747fb194}</UniqueIdentifier>
     </Filter>
+    <Filter Include="cpu">
+      <UniqueIdentifier>{eceb532b-40a9-4371-ae32-f362541a0c62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="mm">
+      <UniqueIdentifier>{a1b2c3d4-1111-4a64-b095-000000000001}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sched">
+      <UniqueIdentifier>{a1b2c3d4-2222-4a64-b095-000000000002}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib">
+      <UniqueIdentifier>{a1b2c3d4-3333-4a64-b095-000000000003}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gui">
+      <UniqueIdentifier>{a1b2c3d4-4444-4a64-b095-000000000004}</UniqueIdentifier>
+    </Filter>
     <Filter Include="include">
       <UniqueIdentifier>{b06943df-4823-4f98-aa89-280fba9ca2b7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="exception">
-      <UniqueIdentifier>{eceb532b-40a9-4371-ae32-f362541a0c62}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="settings.h">
+    <ClCompile Include="src\kernel\kernel.c">
+      <Filter>kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="src\kernel\settings.c">
+      <Filter>kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="src\kernel\lang.c">
+      <Filter>kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="src\drivers\keyboard.c">
+      <Filter>drivers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\drivers\fb.c">
+      <Filter>drivers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\drivers\mouse.c">
+      <Filter>drivers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpu\idt.c">
+      <Filter>cpu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpu\pic.c">
+      <Filter>cpu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpu\timer.c">
+      <Filter>cpu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpu\exceptions.c">
+      <Filter>cpu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpu\panic.c">
+      <Filter>cpu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mm\pmm.c">
+      <Filter>mm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mm\vmm.c">
+      <Filter>mm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mm\heap.c">
+      <Filter>mm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sched\sched.c">
+      <Filter>sched</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lib\string.c">
+      <Filter>lib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\gui.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\drivers\serial.c">
+      <Filter>drivers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\gfx.c">
+      <Filter>gui</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\settings.h">
       <Filter>kernel</Filter>
     </ClInclude>
-    <ClInclude Include="lang.h">
+    <ClInclude Include="include\lang.h">
       <Filter>kernel</Filter>
     </ClInclude>
-    <ClInclude Include="keyboard.h">
+    <ClInclude Include="include\config.h">
+      <Filter>kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="include\keyboard.h">
       <Filter>drivers</Filter>
     </ClInclude>
-    <ClInclude Include="io.h">
+    <ClInclude Include="include\fb.h">
+      <Filter>drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\font8x16.h">
+      <Filter>drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\mouse.h">
+      <Filter>drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\idt.h">
+      <Filter>cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pic.h">
+      <Filter>cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="include\timer.h">
+      <Filter>cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="include\exceptions.h">
+      <Filter>cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="include\panic.h">
+      <Filter>cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="include\io.h">
+      <Filter>cpu</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pmm.h">
+      <Filter>mm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vmm.h">
+      <Filter>mm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\heap.h">
+      <Filter>mm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sched.h">
+      <Filter>sched</Filter>
+    </ClInclude>
+    <ClInclude Include="include\string.h">
+      <Filter>lib</Filter>
+    </ClInclude>
+    <ClInclude Include="include\limine.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="config.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="fb.h">
+    <ClInclude Include="include\serial.h">
       <Filter>drivers</Filter>
     </ClInclude>
-    <ClInclude Include="font8x16.h">
-      <Filter>drivers</Filter>
+    <ClInclude Include="include\gfx.h">
+      <Filter>gui</Filter>
     </ClInclude>
-    <ClInclude Include="idt.h" />
-    <ClInclude Include="limine.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="pic.h" />
-    <ClInclude Include="timer.h" />
-    <ClInclude Include="panic.h">
-      <Filter>exception</Filter>
-    </ClInclude>
-    <ClInclude Include="exceptions.h">
-      <Filter>exception</Filter>
-    </ClInclude>
-    <ClInclude Include="pmm.h" />
-    <ClInclude Include="mouse.h">
-      <Filter>drivers</Filter>
-    </ClInclude>
-    <ClInclude Include="vmm.h" />
-    <ClInclude Include="heap.h" />
-    <ClInclude Include="string.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="linker.ld" />
+    <None Include="limine.conf" />
+    <None Include="GNUmakefile" />
+    <None Include="image.sh" />
+    <None Include="run.bat" />
+    <None Include="src\cpu\switch.asm">
+      <Filter>cpu</Filter>
+    </None>
   </ItemGroup>
 </Project>

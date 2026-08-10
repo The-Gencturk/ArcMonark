@@ -78,11 +78,16 @@ eoi:
 
 char keyboard_getchar(void) {
     while (kbd_head == kbd_tail) {
-        __asm__ volatile ("hlt");   
+        __asm__ volatile ("hlt");
     }
     char c = kbd_buf[kbd_tail];
     kbd_tail = (kbd_tail + 1) % KBD_BUF_SIZE;
     return c;
+}
+
+// Non-bloklayici: tampon icinde bekleyen tus var mi?
+int keyboard_haskey(void) {
+    return kbd_head != kbd_tail;
 }
 
 void read_line(char* buf, int max) {

@@ -45,6 +45,16 @@ int strcmp(const char* a, const char* b) {
     return (int)(uint8_t)*a - (int)(uint8_t)*b;
 }
 
+int streq(const char* a, const char* b) {
+    return strcmp(a, b) == 0;
+}
+
+// prefix ile basliyorsa geri kalanina isaret eder, yoksa NULL.
+const char* str_starts_with(const char* s, const char* prefix) {
+    while (*prefix) { if (*s++ != *prefix++) return (void*)0; }
+    return s;
+}
+
 char* u64_to_dec(uint64_t v, char* buf) {
     if (v == 0) { buf[0] = '0'; buf[1] = '\0'; return buf; }
 

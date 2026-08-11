@@ -3,6 +3,7 @@
 #include "fb.h"
 #include "idt.h"
 #include "pic.h"
+#include "event.h"
 #include <stdint.h>
 
 static const char scancode_ascii[128] = {
@@ -47,33 +48,44 @@ void keyboard_handler(void* frame) {
 
     unsigned char sc = inb(0x60);
 
-    switch (sc) {
-    case SC_LSHIFT_DOWN:
-    case SC_RSHIFT_DOWN: shift_down = 1; goto eoi;
-    case SC_LSHIFT_UP:
-    case SC_RSHIFT_UP:   shift_down = 0; goto eoi;
-    case SC_CAPS_DOWN:   caps_lock ^= 1; goto eoi;  // toggle
-    }
+    // Genisletilmis tus oneki (0xE0): simdilik atla, sahte olay uretme.
+    if (sc == 0xE0) goto eoi;
 
-    if (sc & 0x80) goto eoi;
+    int           is_break = sc & 0x80;
+    unsigned char code     = sc & 0x7F;
 
-    char c = shift_down ? scancode_ascii_shift[sc] : scancode_ascii[sc];
-    if (!c) goto eoi;
+    // Degistirici tuslarin durumunu guncelle.
+    if      (sc == SC_LSHIFT_DOWN || sc == SC_RSHIFT_DOWN) shift_down = 1;
+    else if (sc == SC_LSHIFT_UP   || sc == SC_RSHIFT_UP)   shift_down = 0;
+    else if (sc == SC_CAPS_DOWN)                           caps_lock ^= 1;
 
-    if (caps_lock && is_letter(scancode_ascii[sc])) {
+    // Bu tarama kodu icin ASCII karsilik (yoksa 0).
+    char c = shift_down ? scancode_ascii_shift[code] : scancode_ascii[code];
+    if (caps_lock && is_letter(scancode_ascii[code])) {
         int upper = caps_lock ^ shift_down;
-        c = upper ? scancode_ascii_shift[sc] : scancode_ascii[sc];
+        c = upper ? scancode_ascii_shift[code] : scancode_ascii[code];
     }
 
-
-    uint32_t next = (kbd_head + 1) % KBD_BUF_SIZE;
-    if (next != kbd_tail) {
-        kbd_buf[kbd_head] = c;
-        kbd_head = next;
+    if (!is_break) {
+        // Kabuk tamponu: yalniz gercek ASCII karakterler (read_line icin).
+        if (c) {
+            uint32_t next = (kbd_head + 1) % KBD_BUF_SIZE;
+            if (next != kbd_tail) {
+                kbd_buf[kbd_head] = c;
+                kbd_head = next;
+            }
+        }
     }
+
+    // GUI olay kuyrugu: her make/break olayini bildir.
+    event_t e = {0};
+    e.type     = is_break ? EV_KEY_UP : EV_KEY_DOWN;
+    e.ch       = c;
+    e.scancode = code;
+    event_push(&e);
 
 eoi:
-    outb(0x20, 0x20);   
+    outb(0x20, 0x20);
 }
 
 char keyboard_getchar(void) {

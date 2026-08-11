@@ -2,6 +2,7 @@
 #include "io.h"
 #include "idt.h"
 #include "pic.h"
+#include "event.h"
 
 // 8042 PS/2 denetleyici portlari
 #define PS2_DATA    0x60
@@ -58,13 +59,40 @@ static void mouse_irq(void* frame) {
             // 9-bit isaretli hareket: isaret biti flag baytinda.
             int dx = (int)packet[1] - ((packet[0] << 4) & 0x100);
             int dy = (int)packet[2] - ((packet[0] << 3) & 0x100);
+            int oldx = s_x, oldy = s_y;
             s_x += dx;
             s_y -= dy;                               // ekran Y'si ters (yukari = kucuk y)
             if (s_x < 0) s_x = 0;
             if (s_y < 0) s_y = 0;
             if (s_x >= (int)s_w) s_x = (int)s_w - 1;
             if (s_y >= (int)s_h) s_y = (int)s_h - 1;
-            s_buttons = packet[0] & 0x07;
+
+            uint8_t new_btn = packet[0] & 0x07;
+
+            // Hareket olayi (ekran-uzayi bagil delta, clamp sonrasi).
+            int edx = s_x - oldx, edy = s_y - oldy;
+            if (edx || edy) {
+                event_t e = {0};
+                e.type = EV_MOUSE_MOVE;
+                e.x = (int16_t)s_x; e.y = (int16_t)s_y;
+                e.dx = (int16_t)edx; e.dy = (int16_t)edy;
+                e.buttons = new_btn;
+                event_push(&e);
+            }
+
+            // Tus degisim olaylari (sol/sag/orta ayri ayri).
+            uint8_t changed = new_btn ^ s_buttons;
+            for (uint8_t bit = 0x01; bit <= 0x04; bit <<= 1) {
+                if (!(changed & bit)) continue;
+                event_t e = {0};
+                e.type    = (new_btn & bit) ? EV_MOUSE_DOWN : EV_MOUSE_UP;
+                e.button  = bit;
+                e.buttons = new_btn;
+                e.x = (int16_t)s_x; e.y = (int16_t)s_y;
+                event_push(&e);
+            }
+
+            s_buttons = new_btn;
             break;
         }
         }

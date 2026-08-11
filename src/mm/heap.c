@@ -5,6 +5,7 @@
 #include "vmm.h"
 #include "pmm.h"
 #include "string.h"
+#include "irqlock.h"
 
 
 #define HEAP_BASE       0xFFFFA00000000000ull
@@ -97,6 +98,9 @@ void* kmalloc(size_t size) {
     if (size == 0) return NULL;
     size = align_up(size, ALIGN);
 
+    // Preemption acikken heap listesi tek is-parcasinda tutarli kalmali.
+    uint64_t f = irq_save();
+
     block_t* b = head;
     while (b) {
         if (b->free && b->size >= size) break;
@@ -105,19 +109,22 @@ void* kmalloc(size_t size) {
 
     if (!b) {
         b = extend_heap(size);
-        if (!b) return NULL;
+        if (!b) { irq_restore(f); return NULL; }
     }
 
     split_block(b, size);
     b->free = false;
     used_bytes += b->size;
-    return (void*)((uint8_t*)b + sizeof(block_t));
+    void* ptr = (void*)((uint8_t*)b + sizeof(block_t));
+    irq_restore(f);
+    return ptr;
 }
 
 void kfree(void* ptr) {
     if (!ptr) return;
+    uint64_t f = irq_save();
     block_t* b = (block_t*)((uint8_t*)ptr - sizeof(block_t));
-    if (b->free) return;               
+    if (b->free) { irq_restore(f); return; }
     b->free = true;
     used_bytes -= b->size;
 
@@ -126,12 +133,13 @@ void kfree(void* ptr) {
         b->next = b->next->next;
         if (b->next) b->next->prev = b;
     }
-   
+
     if (b->prev && b->prev->free) {
         b->prev->size += sizeof(block_t) + b->size;
         b->prev->next = b->next;
         if (b->next) b->next->prev = b->prev;
     }
+    irq_restore(f);
 }
 
 void* krealloc(void* ptr, size_t size) {

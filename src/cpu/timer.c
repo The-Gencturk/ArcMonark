@@ -2,6 +2,7 @@
 #include "idt.h"
 #include "pic.h"
 #include "io.h"
+#include "sched.h"
 
 #define PIT_CHANNEL0   0x40
 #define PIT_COMMAND    0x43
@@ -15,6 +16,7 @@ void irq0_timer(struct interrupt_frame* frame) {
     (void)frame;
     ticks++;
     pic_send_eoi(0);
+    sched_tick();          // preemptive zaman-dilimi anahtari (tek task ise etkisiz)
 }
 
 void pit_init(uint32_t frequency) {

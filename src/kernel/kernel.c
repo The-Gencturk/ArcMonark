@@ -15,6 +15,7 @@
 #include "sched.h"
 #include "gfx.h"
 #include "mouse.h"
+#include "event.h"
 
 // --- kabuk komutlari --------------------------------------------------------
 static void cmd_lang(const char* arg) {
@@ -140,6 +141,65 @@ static void cmd_mouse(void) {
     print("mouse demo bitti\n");
 }
 
+// --- arka plan is-parcasi demosu --------------------------------------------
+// Preemptive zamanlayiciyi kanitlar: bu isciler zaman-dilimiyle donusumlu
+// calisir, seri porta yazar, sonra doner (task_exit -> stack geri alinir).
+static void demo_worker(void* arg) {
+    uint64_t id = (uint64_t)arg;
+    char buf[21];
+    for (int i = 0; i < 5; i++) {
+        serial_write("[task ");
+        serial_write(u64_to_dec(id, buf));
+        serial_write("] tick ");
+        serial_write(u64_to_dec((uint64_t)i, buf));
+        serial_write("\n");
+        sleep(150);
+    }
+    // entry doner -> task_trampoline task_exit cagirir; zombie sonra reap edilir.
+}
+
+static void cmd_threads(void) {
+    char buf[21];
+    print("3 arka plan task baslatiliyor (cikti seri portta)\n");
+    task_create(demo_worker, (void*)1);
+    task_create(demo_worker, (void*)2);
+    task_create(demo_worker, (void*)3);
+    print("canli task: "); print(u64_to_dec(sched_task_count(), buf)); putchar('\n');
+
+    // Isciler bitip reap edilene kadar bekle (preemption zaten calistiriyor).
+    for (int i = 0; i < 40 && sched_task_count() > 1; i++)
+        sleep(100);
+
+    print("bitince canli task: "); print(u64_to_dec(sched_task_count(), buf)); putchar('\n');
+}
+
+// --- ortak olay kuyrugu demosu (GUI olay dongusu prototipi) -----------------
+static void cmd_events(void) {
+    print("olay dongusu - cikmak icin ESC\n");
+    event_t e;
+    char buf[21];
+    for (;;) {
+        if (!event_poll(&e)) { asm volatile("hlt"); continue; }
+
+        if (e.type == EV_KEY_DOWN) {
+            if (e.scancode == 0x01) break;             // ESC (make)
+            print("tus  : '");
+            if (e.ch) putchar(e.ch); else print("?");
+            print("'  sc="); print(u64_to_dec(e.scancode, buf)); putchar('\n');
+        } else if (e.type == EV_MOUSE_DOWN) {
+            print("fare down btn="); print(u64_to_dec(e.button, buf));
+            print(" @"); print(u64_to_dec((uint64_t)(uint16_t)e.x, buf));
+            print(","); print(u64_to_dec((uint64_t)(uint16_t)e.y, buf)); putchar('\n');
+        } else if (e.type == EV_MOUSE_UP) {
+            print("fare up   btn="); print(u64_to_dec(e.button, buf)); putchar('\n');
+        }
+        // EV_KEY_UP / EV_MOUSE_MOVE: cok gurultulu, atla.
+    }
+    // Kabuk tamponuna dusen tuslari temizle ki sonraki komut satirina sizmasin.
+    while (keyboard_haskey()) (void)keyboard_getchar();
+    print("olay dongusu bitti\n");
+}
+
 // --- komut ayristirici ------------------------------------------------------
 static void run_command(const char* cmd) {
     const char* arg;
@@ -149,6 +209,8 @@ static void run_command(const char* cmd) {
     else if (streq(cmd, "about")) { print(msg(MSG_ABOUT)); putchar('\n'); }
     else if (streq(cmd, "mem"))                     cmd_mem();
     else if (streq(cmd, "mouse"))                   cmd_mouse();
+    else if (streq(cmd, "threads"))                 cmd_threads();
+    else if (streq(cmd, "events"))                  cmd_events();
     else if ((arg = str_starts_with(cmd, "lang ")))  cmd_lang(arg);
     else if ((arg = str_starts_with(cmd, "theme "))) cmd_theme(arg);
     else if (streq(cmd, "close"))                   cmd_close();
@@ -175,6 +237,7 @@ void kmain(void) {
     heap_init();
     gfx_backbuffer_init();
 
+    event_init();
     sched_init();
     serial_init();
     serial_write("ArcMonark boot\n");
